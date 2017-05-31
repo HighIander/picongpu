@@ -105,6 +105,10 @@ HDINLINE float3_X laserTransversal(float3_X elong, const float_X, const float_X 
     }
     else
     {
+        /* parameters from Mathematica fit */
+        constexpr float_64 p = picongpu::laserJoao::b;
+        constexpr float_64 h = picongpu::laserJoao::c;
+
         const float3_64 ret = precisionCast<float_64>(elong)/(p + h * ExpSigma ) * math::exp( float_64(-1.0)*(exp_x + exp_z)) * (p + h * ExpSigma * cosh);
         //printf("JoaoLaser: E=%f  x=%f  z=%f \n", math::abs(ret), posX, posZ);
         return precisionCast<float_X>(ret);
