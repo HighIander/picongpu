@@ -25,6 +25,21 @@
 
 namespace picongpu
 {
+
+    namespace laser
+    {
+        /** cell from top where the laser is initialized
+         *
+         * if `initPlaneY == 0` than the absorber are disabled.
+         * if `initPlaneY > absorbercells negative Y` the negative absorber in y
+         * direction is enabled
+         *
+         * valid ranges:
+         *   - initPlaneY == 0
+         *   - absorber cells negative Y < initPlaneY < cells in y direction of the top gpu
+        */
+        constexpr uint32_t initPlaneY = 0;
+    }
     namespace laserGaussianBeam
     {
         // Asymetric sinus used: starts with phase=0 at center --> E-field=0 at center
@@ -361,10 +376,11 @@ namespace laserJoao
      * W0_SI = FWHM_of_Intensity / sqrt{ 2* ln(2) }
      *                             [   1.17741    ]
      *  unit: meter */
-    constexpr float_64 W0_X_SI = 3e-6 / 1.17741;
+    constexpr float_64 W0_X_SI = 1.33e-6 / 1.17741;
     constexpr float_64 W0_Z_SI = W0_X_SI;
     
-    constexpr float_64 jetWidth_SI = -5.0e-6;
+    constexpr float_64 jetWidth_SI = 5.0e-6;
+    constexpr float_64 Q_COS_SI = 35e-6;
     
   }
   /** The laser pulse will be initialized half of PULSE_INIT times of the PULSE_LENGTH before plateau
@@ -372,8 +388,8 @@ namespace laserJoao
       *  unit: none */
   constexpr float_64 RAMP_INIT = 12.0;
 
-  constexpr float_X b = 4.0;
-  constexpr float_X c = 10.0; 
+  constexpr float_64 b = 6.0;
+  constexpr float_64 c = 2.5; 
 
   /* we use a sin(omega*time + laser_phase) function to set up the laser - define phase: */
   constexpr float_X LASER_PHASE = 0.0; /* unit: rad, periodic in 2*pi */
